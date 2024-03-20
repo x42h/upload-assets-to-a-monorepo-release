@@ -8,6 +8,8 @@ inputs:
   files:
     description: "A glob of the files to upload"
     required: true
+  monorepo-org:
+    description: "Organization name used to handle monorepo behavior by searching from $org-$pkg_name-$semVer.ext to @org/pkg_name@semVer tag"
   release-tag:
     description: "The tag name of the release to upload to (if not specified then the release that triggered the workflow is used)"
   release-id:
