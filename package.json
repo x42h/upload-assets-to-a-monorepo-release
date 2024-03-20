@@ -5,7 +5,8 @@
   "description": "GitHub Action for uploading assets to a Release",
   "main": "dist/main.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "bundle": "npx @vercel/ncc build dist/main.js -mo ."
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,7 @@
   },
   "devDependencies": {
     "@types/mime-types": "^2.1.0",
-    "@types/node": "^20.9.2",
+    "@types/node": "^20.11.30",
     "all-contributors-cli": "^6.26.1",
     "typescript": "^5.2.2"
   }

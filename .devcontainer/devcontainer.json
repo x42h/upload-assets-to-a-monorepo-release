@@ -5,10 +5,6 @@
 	],
 	"service": "devcontainer",
 	"workspaceFolder": "/src",
-	"extensions": [
-		"esbenp.prettier-vscode",
-		"ms-vscode.vscode-typescript-tslint-plugin",
-	],
 	"shutdownAction": "stopCompose",
 	"remoteUser": "node",
 }

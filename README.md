@@ -1,6 +1,6 @@
 # Upload monorepo Release Assets - GitHub Action
 
-<a href="https://github.com/x42h/upload-assets-to-a-monorepo-release"><img alt="GitHub Actions status" src="https://github.com/x42h/upload-assets-to-a-monorepo-release/workflows/CI/badge.svg"></a>
+<!--a href="https://github.com/x42h/upload-assets-to-a-monorepo-release"><img alt="GitHub Actions status" src="https://github.com/x42h/upload-assets-to-a-monorepo-release/workflows/CI/badge.svg"></a-->
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
@@ -8,6 +8,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+(fork:AButler/upload-release-assets)
 The Upload Release Assets GitHub Action uploads files (base on a glob) to a GitHub release. This is a cross-platform action that runs on any environment.
 
 ## Usage
@@ -25,13 +26,15 @@ jobs:
 
 ## Inputs
 
-| Name          | Description                                                                                       | Examples                                                 |
-| ------------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| `files`       | The glob of files to upload (semicolon separate multiple globs)                                   | `file.txt` <br> `file*.txt` <br> `file_{a,b}.txt;*.json` |
-| `repo-token`  | The GitHub token to use to amend the release _(recommended to use `${{ secrets.GITHUB_TOKEN }}`)_ | `${{ secrets.GITHUB_TOKEN }}`                            |
-| `release-id`  | _(Optional)_ Explicitly specify the release id                                                    | `42`                                                     |
-| `release-tag` | _(Optional)_ Explicity specify the tag of the release                                             | `v1.0.0`                                                 |
+| Name           | Description                                                                                       | Examples                                                 |
+| -------------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `files`        | The glob of files to upload (semicolon separate multiple globs)                                   | `file.txt` <br> `file*.txt` <br> `file_{a,b}.txt;*.json` |
+| `monorepo-org` | Organization name as a flag to use monorepo behavior (version and pkg names will be taken from filenames) | `x42h`                                                   |
+| `repo-token`   | The GitHub token to use to amend the release _(recommended to use `${{ secrets.GITHUB_TOKEN }}`)_ | `${{ secrets.GITHUB_TOKEN }}`                            |
+| `release-id`   | _(Optional)_ Explicitly specify the release id                                                    | `42`                                                     |
+| `release-tag`  | _(Optional)_ Explicity specify the tag of the release                                             | `v1.0.0`                                                 |
 
+If `monorepo-org` is specified, then the version and package names will be taken from assets filename in this format: `${org}-${pkgName}-${semVer}`. To upload assets release will be taken from tag format: `@${org}/${pkgName}@${semVer}`.
 If `release-id` is specified, then the release with this ID will be used.
 If `release-tag` is specified, then the release with this tag will be used.
 If neither are specified, the release from the action is used.
