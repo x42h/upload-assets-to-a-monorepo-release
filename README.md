@@ -1,6 +1,6 @@
-# Upload Release Assets - GitHub Action
+# Upload monorepo Release Assets - GitHub Action
 
-<a href="https://github.com/AButler/upload-release-assets"><img alt="GitHub Actions status" src="https://github.com/AButler/upload-release-assets/workflows/CI/badge.svg"></a>
+<a href="https://github.com/x42h/upload-assets-to-a-monorepo-release"><img alt="GitHub Actions status" src="https://github.com/x42h/upload-assets-to-a-monorepo-release/workflows/CI/badge.svg"></a>
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
@@ -17,7 +17,7 @@ jobs:
   build:
     # ...
     steps:
-      - uses: AButler/upload-release-assets@v3.0
+      - uses: x42h/upload-assets-to-a-monorepo-release@v3.0
         with:
           files: "artifacts/*;packages/*.nupkg"
           repo-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,5 +1,5 @@
 {
-  "name": "upload-release-assets",
+  "name": "upload-assets-to-a-monorepo-release",
   "version": "0.0.0",
   "private": true,
   "description": "GitHub Action for uploading assets to a Release",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AButler/upload-release-assets.git"
+    "url": "git+https://github.com/x42h/upload-assets-to-a-monorepo-release.git"
   },
   "keywords": [
     "actions",

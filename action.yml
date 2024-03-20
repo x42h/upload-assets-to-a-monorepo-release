@@ -1,5 +1,5 @@
-name: "Upload assets to a Release"
-description: "GitHub Action that uploads assets to a GitHub release using a glob (cross-platform)"
+name: "Upload assets to a monorepo Release"
+description: "GitHub Action that uploads assets to a GitHub monorepo release using a glob (cross-platform)"
 author: "AButler"
 branding:
   color: green

@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  devcontainer:
+    image: x42h/typescript-dev-container:0.1
+    build: .
+    container_name: typescript-dev-container
+    hostname: typescript-dev.local
+    working_dir: /src
+    volumes:
+       - ..:/src
+       # Allow AWS CLI and other tools to read an AWS profile
+       # - ~/.aws:/home/node/.aws
+    command: sleep infinity

@@ -1,6 +1,6 @@
 {
-  "projectName": "upload-release-assets",
-  "projectOwner": "AButler",
+  "projectName": "upload-assets-to-a-monorepo-release",
+  "projectOwner": "x42h",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
