@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   devcontainer:
-    image: x42h/typescript-dev-container:0.1
+    image: x42h/typescript-dev-container:0.2
     build: .
     container_name: typescript-dev-container
     hostname: typescript-dev.local
