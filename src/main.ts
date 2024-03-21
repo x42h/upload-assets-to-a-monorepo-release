@@ -48,7 +48,7 @@ async function run() {
 
       const files = await fg(glob.split(";"));
       if (!files.length) {
-        core.setFailed("No files found");
+        core.warning("No files found");
         return;
       }
 
