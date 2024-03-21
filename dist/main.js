@@ -74,17 +74,17 @@ async function run() {
             const orgPkgVer = new RegExp(`${org}-([-_\\w]+)-((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)).*`);
             const monorepoAssetsReleases = files.reduce((out, file) => {
                 const match = file.match(orgPkgVer);
-                if (match) {
+                if (match && match.input) {
                     if (match[1] in out) {
                         if (match[2] in out[match[1]]) {
-                            out[match[1]][match[2]].push(match[0]);
+                            out[match[1]][match[2]].push(match.input);
                         }
                         else {
-                            out[match[1]] = { [match[2]]: [match[0]] };
+                            out[match[1]] = { [match[2]]: [match.input] };
                         }
                     }
                     else {
-                        out[match[1]] = { [match[2]]: [match[0]] };
+                        out[match[1]] = { [match[2]]: [match.input] };
                     }
                 }
                 return out;
