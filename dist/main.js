@@ -41,7 +41,7 @@ async function run() {
         const releaseId = core.getInput("release-id");
         const token = core.getInput("repo-token", { required: true });
         const octokit = github.getOctokit(token);
-        let release_ids = [];
+        let releases = []; // list of (releaseId, assets[])
         if (releaseId && Number.isInteger(parseInt(releaseId))) {
             core.debug(`Using explicit release id ${releaseId}...`);
             const files = await (0, fast_glob_1.default)(glob.split(";"));
@@ -49,7 +49,7 @@ async function run() {
                 core.setFailed("No files found");
                 return;
             }
-            release_ids.push([parseInt(releaseId), files]);
+            releases.push([parseInt(releaseId), files]);
         }
         else if (tag) {
             core.debug(`Getting release id for ${tag}...`);
@@ -62,7 +62,7 @@ async function run() {
                 ...repo,
                 tag,
             });
-            release_ids.push([release.data.id, files]);
+            releases.push([release.data.id, files]);
         }
         else if (org) {
             core.debug(`Monorepo release for org:${org}...`);
@@ -71,7 +71,7 @@ async function run() {
                 core.setFailed("No files found");
                 return;
             }
-            const orgPkgVer = new RegExp(`^${org}-([-_\w]+)-((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)).*$`);
+            const orgPkgVer = new RegExp(`${org}-([-_\\w]+)-((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)).*`);
             const monorepoAssetsReleases = files.reduce((out, file) => {
                 const match = file.match(orgPkgVer);
                 if (match) {
@@ -89,13 +89,17 @@ async function run() {
                 }
                 return out;
             }, {});
+            core.debug(`Monorepo releases: ${monorepoAssetsReleases}`);
             for (const pkg of Object.keys(monorepoAssetsReleases)) {
                 for (const ver of Object.keys(monorepoAssetsReleases[pkg])) {
                     const release = await octokit.rest.repos.getReleaseByTag({
                         ...repo,
                         tag: `@${org}/${pkg}@${ver}`,
                     });
-                    release_ids.push([release.data.id, monorepoAssetsReleases[pkg][ver]]);
+                    core.debug(`Monorepo release tag:"@${org}/${pkg}@${ver}" id:${release.data.id}`);
+                    if (release.data.id) {
+                        releases.push([release.data.id, monorepoAssetsReleases[pkg][ver]]);
+                    }
                 }
             }
         }
@@ -106,13 +110,13 @@ async function run() {
                 core.setFailed("No files found");
                 return;
             }
-            release_ids.push([github.context.payload.release.id, files]);
+            releases.push([github.context.payload.release.id, files]);
         }
-        if (release_ids.length == 0) {
+        if (releases.length == 0) {
             core.setFailed("Could not find release");
             return;
         }
-        for (const release of release_ids) {
+        for (const release of releases) {
             const [release_id, files] = release;
             core.debug(`Uploading assets to release: ${release_id}...`);
             const { data: { upload_url: upload_url, html_url: html_url }, } = await octokit.rest.repos.getRelease({ ...repo, release_id });

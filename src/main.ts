@@ -75,7 +75,7 @@ async function run() {
             ...repo,
             tag: `@${org}/${pkg}@${ver}`,
           });
-          core.debug(`Monorepo get release tag:"@${org}/${pkg}@${ver}" id:${release.data.id}`);
+          core.debug(`Monorepo release tag:"@${org}/${pkg}@${ver}" id:${release.data.id}`);
           if (release.data.id) {
             releases.push([release.data.id, monorepoAssetsReleases[pkg][ver]]);
           }
