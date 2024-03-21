@@ -69,7 +69,7 @@ async function run() {
             core.debug(`Monorepo release for org:${org}...`);
             const files = await (0, fast_glob_1.default)(glob.split(";"));
             if (!files.length) {
-                core.setFailed("No files found");
+                core.warning("No files found");
                 return;
             }
             const orgPkgVer = new RegExp(`${org}-([-_\\w]+)-((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)).*`);
