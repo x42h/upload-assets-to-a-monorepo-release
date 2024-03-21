@@ -32,6 +32,7 @@ const fast_glob_1 = __importDefault(require("fast-glob"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const mime_types_1 = __importDefault(require("mime-types"));
+const node_util_1 = require("node:util");
 async function run() {
     try {
         const repo = github.context.repo;
@@ -74,22 +75,22 @@ async function run() {
             const orgPkgVer = new RegExp(`${org}-([-_\\w]+)-((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)).*`);
             const monorepoAssetsReleases = files.reduce((out, file) => {
                 const match = file.match(orgPkgVer);
-                if (match) {
+                if (match && match.input) {
                     if (match[1] in out) {
                         if (match[2] in out[match[1]]) {
-                            out[match[1]][match[2]].push(match[0]);
+                            out[match[1]][match[2]].push(match.input);
                         }
                         else {
-                            out[match[1]] = { [match[2]]: [match[0]] };
+                            out[match[1]] = { [match[2]]: [match.input] };
                         }
                     }
                     else {
-                        out[match[1]] = { [match[2]]: [match[0]] };
+                        out[match[1]] = { [match[2]]: [match.input] };
                     }
                 }
                 return out;
             }, {});
-            core.debug(`Monorepo releases: ${monorepoAssetsReleases}`);
+            core.debug(`Monorepo releases: ${(0, node_util_1.inspect)(monorepoAssetsReleases)}`);
             for (const pkg of Object.keys(monorepoAssetsReleases)) {
                 for (const ver of Object.keys(monorepoAssetsReleases[pkg])) {
                     const release = await octokit.rest.repos.getReleaseByTag({

@@ -4,6 +4,7 @@ import fg from "fast-glob";
 import fs from "fs";
 import path from "path";
 import mime from "mime-types";
+import {inspect} from "node:util";
 
 async function run() {
   try {
@@ -54,21 +55,21 @@ async function run() {
       const orgPkgVer = new RegExp(`${org}-([-_\\w]+)-((0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)).*`);
       const monorepoAssetsReleases = files.reduce((out: {[key: string]: {[key: string]: string[]}}, file: string) => {
         const match = file.match(orgPkgVer);
-        if (match) {
+        if (match && match.input) {
           if (match[1] in out) {
             if (match[2] in out[match[1]]) {
-              out[match[1]][match[2]].push(match[0]);
+              out[match[1]][match[2]].push(match.input);
             } else {
-              out[match[1]] = { [match[2]]: [match[0]] };
+              out[match[1]] = { [match[2]]: [match.input] };
             }
           } else {
-            out[match[1]] = { [match[2]]: [match[0]] };
+            out[match[1]] = { [match[2]]: [match.input] };
           }
         }
         return out;
       }, {});
 
-      core.debug(`Monorepo releases: ${monorepoAssetsReleases}`);
+      core.debug(`Monorepo releases: ${inspect(monorepoAssetsReleases)}`);
       for (const pkg of Object.keys(monorepoAssetsReleases)) {
         for (const ver of Object.keys(monorepoAssetsReleases[pkg])) {
           const release = await octokit.rest.repos.getReleaseByTag({
